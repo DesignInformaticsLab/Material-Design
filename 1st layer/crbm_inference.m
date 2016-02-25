@@ -1,6 +1,5 @@
 %% crbm_inference
-function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch, weight, Tlist, params,ii)
-% function [poshidexp2] = crbm_inference(image, patch, weight, params,ii)
+function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
     rng(0);
     numchannels = 1; % weight.vishid assumes a single channel
     W = gather(weight.vishid);
@@ -14,12 +13,6 @@ function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch,
    
 
     hidprob = zeros(numhid, numtx+1, batchsize, 'single');
-%     if params.optgpu,
-%         hidprob = gpuArray(hidprob);
-%     end
-    % load artificial W for testing
-%     load('W4.mat');
-%     W=W4;
     % reshape for speedup
     vishid_up = W;
     vishid_down = W;
@@ -46,10 +39,6 @@ function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch,
             xb(j+(L-ws+1)*(i-1),:) = reshape(temp,[1,ws*ws]);       
         end    
     end
-      
-%     if params.optgpu,
-%         xb = gpuArray(xb);
-%     end
     
     A = zeros(size(Tlist{1}, 1)*params.numtx, size(Tlist{1}, 2), 'single');
     if params.optgpu,
@@ -70,7 +59,6 @@ function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch,
     hidprob = reshape(hidprob, numhid, numtx+1, batchsize);
 
     hidprob(:, 1:numtx, :) = gather(reshape(vishid_up'*Tx + hbiasmat, numhid, numtx, batchsize));
-%     hidprob(:, 1:numtx, :) = reshape(vishid_up'*Tx, numhid, numtx, batchsize);
     hidprob(:, numtx+1, :) = 0;
     hidprob = exp(bsxfun(@minus, hidprob, max(hidprob, [], 2)));
     hidprob = bsxfun(@rdivide, hidprob, sum(hidprob, 2));
@@ -80,9 +68,12 @@ function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch,
     hidprob = reshape(permute(hidprob, [2 1 3]), numtx+1, numhid*batchsize);
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = permute(reshape(hidstate(1:numtx, :), numtx, numhid, batchsize), [2 1 3]);
+
+%%%% testing pool_back %%%%   
 %     hidstate = reshape(pool_back,[195*195 24])';
 %     hidstate = reshape(hidstate,[2 12 195*195]);
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
     negdata = zeros(L, H, numchannels);
     for nf = 1:numhid
         for nt = 1:numtx
@@ -100,8 +91,8 @@ function [poshidexp2,test] = crbm_inference_random_recon(pool_back,image, patch,
 
         
     poshidexp2 = negdata;
-    fprintf('Saving negdata %d...\n',ii);
-    figure(23);
+    fprintf('Loading negdata %d...\n',ii);
+    figure(1);
     display_network(reshape(negdata,size(negdata,1)*size(negdata,2),1));
     return
 end
