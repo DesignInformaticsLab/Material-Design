@@ -28,6 +28,6 @@ params.numtx = length(Tlist);
 for ii = 1:1
 image = WB(ii,:);
 image = reshape(image,[200,200]);
-[image_reconstruct]= crbm_inference(pool_back,image, patch, weight, Tlist, params,ii); % remove rbm1.pars and set the value0.2 inside the function 10/15/2015
+[image_reconstruct]= crbm_inference(image, patch, weight, Tlist, params,ii); % remove rbm1.pars and set the value0.2 inside the function 10/15/2015
     
 end

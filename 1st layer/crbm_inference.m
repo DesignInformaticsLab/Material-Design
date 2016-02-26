@@ -1,5 +1,5 @@
 %% crbm_inference
-function [poshidexp2] = crbm_inference(pool_back, image, patch, weight, Tlist, params,ii)
+function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
     rng(0);
     numchannels = 1; % weight.vishid assumes a single channel
     W = gather(weight.vishid);
@@ -111,8 +111,8 @@ function [poshidexp2] = crbm_inference(pool_back, image, patch, weight, Tlist, p
 %     end
 
 %%%% testing pool_back %%%%   
-    hidstate = reshape(pool_back,[195*195 24])';
-    hidstate = reshape(hidstate,[12 2 195*195]);
+%     hidstate = reshape(pool_back,[195*195 24])';
+%     hidstate = reshape(hidstate,[12 2 195*195]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
  
     negdata = zeros(L, H, numchannels);
