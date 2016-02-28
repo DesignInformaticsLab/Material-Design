@@ -84,7 +84,7 @@ function [poshidexp2] = crbm_3rdlayer(image, patch, W, weight, Tlist, params, ii
     hidprob = reshape(permute(hidprob, [2 1 3]), numtx+1, numhid*batchsize/numchannels);
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = permute(reshape(hidstate(1:numtx, :), numtx, numhid, batchsize/numchannels), [2 1 3]);
-    fname = sprintf('hidstates3nd_WB_nowh(p2p2)_(2f40f24f6ws9ws18ws12rP20P10P10Pb01)_%d',ii);
+    fname = sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_%d',ii);
     save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
 %     
 
@@ -107,36 +107,6 @@ function [poshidexp2] = crbm_3rdlayer(image, patch, W, weight, Tlist, params, ii
     poshidexp2 = negdata;
 %     fname2=sprintf('negdata(wobw)_2n_48f(2f24r)_%d',ii);
 %     save([fname2 '.mat'], 'negdata');
-
-%     poshidprobs2 = zeros(size(imdata,1)-ws+1, size(imdata,2)-ws+1, numbases);
-%     poshidexp2 = zeros(size(imdata,1)-ws+1, size(imdata,2)-ws+1, numbases);
-%     for c=1:numchannel
-%         H = reshape(W(end:-1:1, c, :),[ws,ws,numbases]);
-%         poshidexp2 = poshidexp2 + conv2_mult(imdata(:,:,c), H, 'valid');
-%     end
-% 
-%     for b=1:numbases
-% %         for rot=1:numrot 
-%         poshidexp2(:,:,b) = 1/((0.2)^2).*(poshidexp2(:,:,b) + hbias_vec(b));%0.2 is pars.st_gaussian, 10/15/2015
-% %         poshidprobs2(:,:,b) = 1./(1 + exp(-poshidexp2(:,:,b)));
-%         end
-% end
-
-%     figure(8);
-%     temp_neg = negdata>0.68;
-%     display_network(reshape(temp_neg(:,:,6),size(temp_neg,1)*size(temp_neg,2),1));
-%     subplot(7,7,ii),display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1));
-%     for i = 1:48
-%        subplot(7,7,i),display_network(reshape(negdata(:,:,i),size(negdata,1)*size(negdata,2),1));
-%     end 
-%     figure(8);
-%     display_network(reshape(xb,size(xb,1)*size(xb,2),1));
-%     for i = 1:48
-%     subplot(7,7,ii),display_network(reshape(image(:,:,1),size(image,1)*size(image,2),1))
-%     end
-%     figure(3);subplot(7,7,ii),imshow(image);
-%     figure(4);subplot(7,7,ii),imshow(negdata);
-%     figure(4);subplot(7,7,ii), display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1))
 
     return
 end

@@ -1,7 +1,7 @@
 clear;
 
 %% reconstruction process from 3rd layer
-addpath('utils','function_code','hidstate_3rdlayer_p2p2_(2f40f288f6ws9ws13ws12rP20P10P10Pb01)')
+addpath('utils','function_code','hidstate_3rdlayer_p2p2_(2f40f288f6ws9ws9ws12rP20P10P10Pb01)')
 % One=load('WB_real_alloy_w24_b02_rot_nrot24_pb0.1_pl0.1_iter_500.mat');
 One=load('WB_nowh_P20Pb01_rot12_2f_6ws_alloy_w6_b02_rot_nrot12_pb0.1_pl20_iter_4000.mat');
 
@@ -15,17 +15,17 @@ Three=load(sprintf('%s.mat',fname));
 weight3=Three.weight;
 W_Three=gather(weight3.vishid);
 
-for i = 1:size(W_Three,2)
-    W_temp=reshape(W_Three(:,i),[size(W_Three,1)/40 40]);
-    for j = 1:40
-        W_temp2=reshape(W_temp(:,j),[sqrt(size(W_temp,1)) sqrt(size(W_temp,1))]);
-        W_temp2=imresize(W_temp2,[sqrt(size(W_temp,1))*2 sqrt(size(W_temp,1))*2]);
-        W_temp3(:,j)=W_temp2(:);
-    end
-    W_Three_Pool(:,i)=W_temp3(:);
-end
-clear W_temp3;clear W_temp2;clear W_temp;
-W_Three=W_Three_Pool;
+% for i = 1:size(W_Three,2)
+%     W_temp=reshape(W_Three(:,i),[size(W_Three,1)/40 40]);
+%     for j = 1:40
+%         W_temp2=reshape(W_temp(:,j),[sqrt(size(W_temp,1)) sqrt(size(W_temp,1))]);
+%         W_temp2=imresize(W_temp2,[sqrt(size(W_temp,1))*2 sqrt(size(W_temp,1))*2]);
+%         W_temp3(:,j)=W_temp2(:);
+%     end
+%     W_Three_Pool(:,i)=W_temp3(:);
+% end
+% clear W_temp3;clear W_temp2;clear W_temp;
+% W_Three=W_Three_Pool;
 
 params_Three=Three.params;
 ws_Three=params_Three.ws;
@@ -54,7 +54,7 @@ W_two=temp.vishid;
 W_two_Pool=W_two;
 
 % dimension of the reconstruction image
-L3=36*2;H3=36*2;
+L3=36;H3=36;
 
 params_One=One.params;
 params_Two=Two.params;
@@ -67,29 +67,23 @@ for ii = 1:100
     fname=sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f288f6ws9ws9ws12rP20P10P10Pb01)_%d',ii); %WB
     load([fname '.mat'],'hidstate');
     %% 3rd layer hidstate pool back by2
-    hidstate=reshape(hidstate,[size(hidstate,1) size(hidstate,3)]);
-    for pp=1:size(hidstate,1)
-        hidstate_temp=reshape(hidstate(pp,:),[sqrt(size(hidstate,2)),sqrt(size(hidstate,2))]);
-       for m = 1:sqrt(size(hidstate,2))
-            for n = 1:sqrt(size(hidstate,2))
-                if hidstate_temp(m,n)==1
-                    hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=1;
-                else
-                    hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=0;
-                end
-            end
-       end
-        hidstate_3rd_layer(pp,:)=hidstate_pool2(:);
-    end
-    hidstate=hidstate_3rd_layer;
-    hidstate=reshape(hidstate,[288 1 5184]);
+%     hidstate=reshape(hidstate,[size(hidstate,1) size(hidstate,3)]);
+%     for pp=1:size(hidstate,1)
+%         hidstate_temp=reshape(hidstate(pp,:),[sqrt(size(hidstate,2)),sqrt(size(hidstate,2))]);
+%         hidstate_pool2 = imresize(hidstate_temp,[sqrt(size(hidstate,2))*2,sqrt(size(hidstate,2))*2]);
+%         hidstate_pool2 = double(im2bw(hidstate_pool2));
+%         
+%         hidstate_3rd_layer(pp,:)=hidstate_pool2(:);
+%     end
+%     hidstate=hidstate_3rd_layer;
+%     hidstate=reshape(hidstate,[288 1 5184]);
    %% 3rd layer reconstruction (pool back by 2)
     numchannels=params_Three.numch;
     negdata = zeros(L3, H3, numchannels);
     for nf = 1:params_Three.numhid
         for nt = 1:params_Three.numtx
             filter_t = W_Three(:,nf);
-            filter_t = reshape(filter_t,[ws_Three*2,ws_Three*2,numchannels]);
+            filter_t = reshape(filter_t,[ws_Three,ws_Three,numchannels]);
             S = reshape(hidstate(nf,nt,:),L3,H3);
             temp = conv2_mult(S, filter_t, 'same');
             negdata = negdata + temp;
@@ -97,13 +91,17 @@ for ii = 1:100
     end
     negdata = sigmoid(negdata);
     hidstate=negdata;   
-    
-    
-    
+    %% 3rd layer hidstate pool back by2
+    for pp = 1:size(hidstate,3)
+        hidstate_pool=imresize(hidstate(:,:,pp),2);
+        hidstate_pool=double(im2bw(hidstate_pool));
+        hidstate_pool2(:,:,pp)=hidstate_pool;
+    end
+    hidstate=hidstate_pool2;
     
     hidstate=permute(hidstate,[3,1,2]);
-    hidstate=reshape(hidstate,[1,40,L3^2]);
-          
+    hidstate=reshape(hidstate,[1,40,(L3*2)^2]);
+    
         
 %% 2nd layer reconstruction (pooled by 2)   
 vishid_up = W_two_Pool;
@@ -114,12 +112,12 @@ if strcmp(params_Two.intype, 'real'),
 end
 numchannels=params_Two.numch;
 vishid_down_two=gather(vishid_down_two);
-negdata = zeros(L3, H3, numchannels);
+negdata = zeros(L3*2, H3*2, numchannels);
     for nf = 1:params_Two.numhid
         for nt = 1:params_Two.numtx
             filter_t = vishid_down_two(:,nf);
             filter_t = reshape(filter_t,[ws_Two,ws_Two,numchannels]);
-            S = reshape(hidstate(nt,nf,:),L3,H3);
+            S = reshape(hidstate(nt,nf,:),L3*2,H3*2);
             S1 = S;
             S1=im2bw(S1);
             S1=double(S1);
@@ -144,15 +142,16 @@ hidstate=negdata;
 %% 2nd layer hidstate pool back by 2
     for pp=1:size(hidstate,3)
         hidstate_temp=hidstate(:,:,pp);
-        for m = 1:size(hidstate,2)
-            for n = 1:size(hidstate,1)
-                if hidstate_temp(m,n)==1
-                    hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=1;
-                else
-                    hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=0;
-                end
-            end
-        end
+%         for m = 1:size(hidstate,2)
+%             for n = 1:size(hidstate,1)
+%                 if hidstate_temp(m,n)==1
+%                     hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=1;
+%                 else
+%                     hidstate_pool2(2*m-1:2*m,2*n-1:2*n)=0;
+%                 end
+%             end
+%         end
+        hidstate_pool2=imresize(hidstate_temp,[size(hidstate,1)*2,size(hidstate,2)*2]);
         hidstate_2nd_layer(pp,:)=hidstate_pool2(:);
     end
     hidstate=hidstate_2nd_layer';
