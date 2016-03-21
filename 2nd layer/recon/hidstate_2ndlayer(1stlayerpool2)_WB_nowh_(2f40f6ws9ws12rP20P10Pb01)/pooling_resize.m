@@ -17,7 +17,7 @@ for i = 1:100
     
    
     end
-%     hidstate=temp2_2;
+    hidstate=temp2;
     fname = sprintf('hidstate_2ndlayer_POOL2(imresize)_(2f40f6ws9ws12rP20P10Pb01)_%d',i);
     save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
 

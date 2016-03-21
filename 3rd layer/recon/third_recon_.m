@@ -28,7 +28,7 @@ Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numro
 params.numtx = length(Tlist);
 
 for ii = 1:100
-fname=sprintf('hidstate_2ndlayer_POOL2_(2f40f6ws9ws12rP20P10Pb01)_%d',ii);
+fname=sprintf('hidstate_2ndlayer_POOL2(imresize)_(2f40f6ws9ws12rP20P10Pb01)_%d',ii);
 load([fname '.mat'],'hidstate')
 
 image2=hidstate;

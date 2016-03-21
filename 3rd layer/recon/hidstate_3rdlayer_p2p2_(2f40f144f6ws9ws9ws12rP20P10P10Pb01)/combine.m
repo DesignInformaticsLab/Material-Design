@@ -1,11 +1,15 @@
 for ii = 1:100
-fname = sprintf('hidstates2nd_WB_nowh_(2f40f6ws18ws12rP20P10Pb01)_1_%d',ii);
+fname = sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_%d',ii);
 f1=load(sprintf('%s.mat', fname));   
 temp = double([f1.hidstate;]);
 temp = permute(temp,[3,2,1]);
 xtr(ii,:) = temp(:)';
 % f1=load([CIFAR_DIR '/filter8_ws12.mat']);
 end
+fname = sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)');
+save(sprintf('%s.mat',fname),'xtr', '-v7.3');
+
+
 % rearrange for max pooling
 % for ii = 1:99
 % fname = sprintf('hidstates_%d',ii);

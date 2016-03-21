@@ -1,18 +1,18 @@
 clear;
 addpath('function_code','utils');
 
-load('filter_2nd_layer.mat');
-load('3rd_POOL2(imresize)_(real_bibi)_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_alloy_w9_b144_trans_ntx1_gr1_pb0.1_pl10_iter_1000.mat')
-numch = 40;
+load('filter_3rd_layer.mat');
+load('rbm_W.mat')
+numch = 144;
 
 %define 3rd layer filter
-W_Three=gather(weight.vishid);
+W_Three=W;
 %pool back 3rd layer filter
 for i = 1:size(W_Three,2)
-    W_temp=reshape(W_Three(:,i),[9*9 40]);
-    for j = 1:40
-        W_temp2=reshape(W_temp(:,j),[9 9]);
-        W_temp2=imresize(W_temp2,[9*4 9*4]);
+    W_temp=reshape(W_Three(:,i),[36*36 numch]);
+    for j = 1:numch
+        W_temp2=reshape(W_temp(:,j),[36 36]);
+        W_temp2=imresize(W_temp2,[36*4 36*4]);
         W_temp3(:,j)=W_temp2(:);
     end
     W_Three_Pool(:,i)=W_temp3(:);
@@ -22,13 +22,12 @@ W_Three=W_Three_Pool;
 
 
 % define 2nd layer filter
-filter_t_corr=filter_2nd_layer';
-
+filter_t_corr=store;
 filter_t_corr=reshape(filter_t_corr,[numel(filter_t_corr)/numch,numch]);
 for j = 1:size(W_Three,2)
     filter_3rd_temp=W_Three(:,j);
 
-negdata = zeros(36, 36);
+negdata = zeros(36*4, 36*4);
 for i=1:numch
 %     for ii =1:size(filter_t,2)
         filter_t_temp=filter_t_corr(:,i);
@@ -45,7 +44,7 @@ for i=1:numch
 %         figure(j+10); subplot(1,8)imshow(negdata) negdata = temp2+negdata;
 %     end
 end
-store(:,j)=negdata(:);
+store_visual(:,j)=negdata(:);
 % figure(104); subplot(12,12,j),display_network(reshape(negdata,size(negdata,1)*size(negdata,2),1));
 
 end

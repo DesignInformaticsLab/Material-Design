@@ -1,4 +1,4 @@
-clear;
+% clear;
 
 %% reconstruction process from 3rd layer
 addpath('utils','function_code','hidstate_3rdlayer_p2p2_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)')
@@ -62,8 +62,19 @@ ws_Two=params_Two.ws;
 Tlist = get_txmat(params_One.txtype, params_One.rs, params_One.ws, params_One.grid, params_One.numrot, params_One.numch);
 
 %% reconstruction process
-for ii = 1:100
+for ii = 4:100
 
+%%%%%%initialize store size(could be erased)%%%
+    hidstate_2nd_layer=zeros(24,20736);
+    hidstate_pool2=zeros(72,72,40);
+%               
+%     hidstate=W(:,ii);
+%     hidstate=reshape(hidstate,[36*36 144])';
+%     hidstate=reshape(hidstate,[144 1 36*36]);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    
+%     hidstate=hidstate_rbm;
+    
     fname=sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_%d',ii); %WB
     load([fname '.mat'],'hidstate');
     %% 3rd layer hidstate pool back by2
@@ -89,8 +100,28 @@ for ii = 1:100
             negdata = negdata + temp;
         end
     end
-    negdata = sigmoid(negdata);
-    hidstate=negdata;   
+    %% set bw threshold to set up the hidstate(or apply fdog)
+%     negdata_temp=(negdata-min(negdata(:)))/max(max(max((negdata-min(negdata(:))))));
+%     negdata_temp=double(im2bw(reshape(negdata_temp,[36*36 40]),0.6));
+%     hidstate=negdata_temp;
+ 
+%     load('hidstate_fdog2'); %this step is by FDoG
+%     hidstate=hidstate_fdog2';
+%     hidstate=reshape(hidstate,[36 36 40]);
+    
+%     negdata = sigmoid(negdata);
+%     hidstate=negdata;
+    temp_binary=zeros(36,36,40);
+    [svals,idx]=sort(negdata(:),'descend');
+    thre=svals(round(36*36*40*0.1));
+    for aa = 1:size(negdata,3)
+        temp_fdog2=reshape(negdata(:,:,aa),[36 36]);
+%         [Gmag,Gdir] = imgradient(temp_fdog2);
+%         temp_fdog2=temp_fdog2>thre;
+%         temp_fdog2(Gmag>300)=1;
+        temp_binary(:,:,aa)=temp_fdog2;
+    end
+    hidstate=temp_binary;
     %% 3rd layer hidstate pool back by2
     for pp = 1:size(hidstate,3)
         hidstate_pool=imresize(hidstate(:,:,pp),2);
@@ -119,13 +150,13 @@ negdata = zeros(L3*2, H3*2, numchannels);
             filter_t = reshape(filter_t,[ws_Two,ws_Two,numchannels]);
             S = reshape(hidstate(nt,nf,:),L3*2,H3*2);
             S1 = S;
-            S1=im2bw(S1);
-            S1=double(S1);
-            filter_x = ones(2,2);
-            for i = 1:2
-                S1=conv2(S1,filter_x,'same');
-                S1=floor(S1/4);
-            end
+%             S1=im2bw(S1);
+%             S1=double(S1);
+%             filter_x = ones(2,2);
+%             for i = 1:2
+%                 S1=conv2(S1,filter_x,'same');
+%                 S1=floor(S1/4);
+%             end
             S=S1;
             S=double(S);
             filter_t=gather(filter_t);
@@ -135,10 +166,30 @@ negdata = zeros(L3*2, H3*2, numchannels);
         end
 %         negdata = sigmoid(negdata);
     end
-negdata = sigmoid(negdata);
-negdata=gather(negdata);
+    
+    [svals,idx]=sort(negdata(:),'descend');
+    thre=svals(round(72*72*24*0.1));
+    temp_binary=zeros(72,72,24);
+    for aa = 1:size(negdata,3)
+        temp_fdog2=reshape(negdata(:,:,aa),[72 72]);
+%         temp_binary(:,:,aa)=temp_fdog2>thre;        
+%         [Gmag,Gdir] = imgradient(temp_fdog2);
+%         temp_fdog2=temp_fdog2>thre;
+%         temp_fdog2(Gmag>800)=1;
+        temp_binary(:,:,aa)=temp_fdog2;
+        
+    end
+    hidstate=temp_binary;    
+    
+%     negdata_temp=(negdata-min(negdata(:)))/max(max(max((negdata-min(negdata(:))))));
+%     negdata_temp=double(im2bw(reshape(negdata_temp,[72*72 24]),0.65));
+%     hidstate=negdata_temp;
+%     hidstate=reshape(hidstate,[72 72 24]);
+    
+% negdata = sigmoid(negdata);
+% negdata=gather(negdata);
+% hidstate=negdata;
 
-hidstate=negdata;
 %% 2nd layer hidstate pool back by 2
     for pp=1:size(hidstate,3)
         hidstate_temp=hidstate(:,:,pp);
@@ -184,13 +235,13 @@ negdata = zeros(L3*4, H3*4, numchannels);
             filter_t = reshape(filter_t,[ws_One,ws_One,numchannels]);
             S = reshape(hidstate(nt,nf,:),L3*4,H3*4);
             S1 = S;
-            S1=im2bw(S1);
-            S1=double(S1);
-            filter_x = ones(2,2);
-            for i = 1:2
-                S1=conv2(S1,filter_x,'same');
-                S1=floor(S1/4);
-            end
+%             S1=im2bw(S1);
+%             S1=double(S1);
+%             filter_x = ones(2,2);
+%             for i = 1:2
+%                 S1=conv2(S1,filter_x,'same');
+%                 S1=floor(S1/4);
+%             end
             S=S1;
             S=double(S);
             filter_t=gather(filter_t);
@@ -206,7 +257,9 @@ negdata=gather(negdata);
 %     fname = sprintf('recon_2nd_%d',ii);
 %     save(sprintf('%s.txt',fname),'negdata', '-ascii');
     
-figure(1);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1),ii);
+% figure(ii);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1),ii);
 % figure(112);subplot(10,10,ii),imshow(negdata);
-% figure(2);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1));
+figure(5);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1));
+% store_total(:,ii)=negdata(:);
+
 end
