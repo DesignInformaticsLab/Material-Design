@@ -4,7 +4,6 @@ function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
     numchannels = 1; % weight.vishid assumes a single channel
     W = gather(weight.vishid);
     ws = sqrt(size(W,1));
-%     ws = 24;
     numhid = size(W,2); % number of filters
     numtx = size(Tlist,1);
     batchsize = (size(image,1)-ws+1)*(size(image,2)-ws+1);
@@ -69,51 +68,8 @@ function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = reshape(hidstate(1:numtx, :), numtx, numhid, batchsize);
     
-%     xtr=reshape(hidstate,[24 38025])';
-%     C=2;
-%     for j = 1:24
-%     temp = reshape(xtr(:,j),[sqrt(size(xtr,1)),sqrt(size(xtr,1))]);
-%     for m = 1:(size(temp,1)-1)/C
-%         for n = 1:(size(temp,2)-1)/C
-%             block = temp(2*m-1:2*m,2*n-1:2*n);
-%             if sum(sum(block))>0
-%                 temp2(m,n)= 1;
-%             else
-%                 temp2(m,n)=0;
-%             end
-%         end
-%     end
-%     temp2_2(:,j) = reshape(temp2,[size(temp2,1)*size(temp2,2),1]);
-%     end
-%     temp3(ii,:) = temp2_2(:);
-%     
-%     pool = temp3;
-% 
-%     for i = 1:1
-%     for j = 1:24
-%         temp=pool(i,:);
-%         temp=reshape(temp,[97*97 24]);
-%         temp=reshape(temp(:,j),[97 97]);
-%         for m = 1:97
-%             for n = 1:97
-%                 if temp(m,n)==1
-%                     pool2(2*m-1:2*m,2*n-1:2*n)=1;
-%                 else
-%                     pool2(2*m-1:2*m,2*n-1:2*n)=0;
-%                 end
-%             end
-%         end
-%         pool2(195,:)=0;
-%         pool2(:,195)=0;
-%         pool2_2(:,j)=pool2(:);
-%     end
-%     pool_back(i,:)=pool2_2(:);
-%     end
-
-%%%% testing pool_back %%%%   
-%     hidstate = reshape(pool_back,[195*195 24])';
-%     hidstate = reshape(hidstate,[12 2 195*195]);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    fname = sprintf('hidstates1th_nonormnowhite_limitpatch_sandstone_(24f6wsP10Pb01)_%d',ii);
+    save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
  
     negdata = zeros(L, H, numchannels);
     for nf = 1:numhid
@@ -133,7 +89,7 @@ function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
         
     poshidexp2 = negdata;
     fprintf('Loading negdata %d...\n',ii);
-    figure(1);
-    display_network(reshape(negdata,size(negdata,1)*size(negdata,2),1));
+%     figure(1);
+%     display_network(reshape(negdata,size(negdata,1)*size(negdata,2),1));
     return
 end

@@ -259,7 +259,7 @@ for t = 1:params.maxiter,
 %     if params.epsilon <0.00005
 %        return 
 %     end    
-    if mod(t,2000) == 0,
+    if mod(t,1000) == 0,
         % save trained weight
         weight = cpu2gpu_struct(weight);
         history = cpu2gpu_struct(history);

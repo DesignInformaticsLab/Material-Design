@@ -109,8 +109,8 @@ for t = 1:params.maxiter,
     sparsity_epoch = zeros(nbatch, 1);
     tetot = zeros(nbatch, 1);
     
-    imidx_batch = randperm(size(xtr, 2));
-%     imidx_batch = 1:600;
+%     imidx_batch = randperm(size(xtr, 2));
+    imidx_batch = 1:1000;
     if mod(t,200)==0
         aaa=1;
     end

@@ -84,7 +84,7 @@ function [poshidexp2] = crbm_4thlayer(image, patch, W, weight, params, ii)
     hidprob = reshape(permute(hidprob, [2 1 3]), numtx+1, numhid*batchsize/numchannels);
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = permute(reshape(hidstate(1:numtx, :), numtx, numhid, batchsize/numchannels), [2 1 3]);
-    fname = sprintf('hidstates4th_WB_nowh(p2p2)_imresize_(2f40f144f1000f6ws9ws9ws36ws12rP20P10P10Pb01)_%d',ii);
+    fname = sprintf('hidstates4th_hardsphere_(p2p2)_imresize_(24f40f288f1000f6ws9ws9ws36ws)_%d',ii);
     save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
 %     
 

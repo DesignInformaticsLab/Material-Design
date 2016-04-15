@@ -70,7 +70,7 @@ function [poshidexp2] = crbm_inference_36channel(image, patch, W, weight, Tlist,
     hidprob = reshape(permute(hidprob, [2 1 3]), numtx+1, numhid*batchsize/numchannels);
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = permute(reshape(hidstate(1:numtx, :), numtx, numhid, batchsize/numchannels), [2 1 3]);
-    fname = sprintf('hidstate_2ndlayer(1stlayerpool2)_WB_nowh_(2f40f6ws9ws12rP20P10Pb01)_%d',ii);
+    fname = sprintf('hidstate_2ndlayer(1stp2)_sandstone_(2f40f6ws18ws)_%d',ii);
     save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
 
     negdata = zeros(L-ws+1, H-ws+1, numchannels);

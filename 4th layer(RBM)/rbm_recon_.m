@@ -1,6 +1,6 @@
-addpath('function_code','utils','results','3rd layer hidstate')
+addpath('function_code','utils','results','hidstate_hardsphere_3rdlayer_p2p2_(24f40f288f6ws9ws9wsP10Pb01)')
 
-fname=sprintf('rbm_1to100_4thlayer_(2f40f144f500f6ws9ws9ws36ws12rP20P10P10P10Pb01)_alloy_w36_b1000_trans_ntx1_gr1_pb0.1_pl10_iter_800');
+fname=sprintf('rbm_hardsphere_4thlayer_(24f40f288f1000f6ws9ws9ws36wsP05Pb10)_alloy_w36_b1000_trans_ntx1_gr1_pb0.5_pl10_iter_800');
 load(sprintf('%s.mat',fname));
 
 
@@ -27,8 +27,8 @@ dataname='alloy_scale';
 % Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numrot, params.numch);
 params.numtx = 1;
 
-for ii = 1:100
-fname=sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_%d',ii);
+for ii = 1:60
+fname=sprintf('hidstates3nd_hardsphere_(p2p2)_(24f40f288f6ws9ws9wsP10Pb01)_%d',ii);
 load([fname '.mat'],'hidstate')
 
 image2=hidstate;

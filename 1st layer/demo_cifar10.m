@@ -55,7 +55,7 @@ params.sptype = sptype;
 params.savepath = savedir;
 
 % other hyper parameters
-params.maxiter = 1000;
+params.maxiter = 6000;
 params.batchsize = batchSize;
 params.epsilon = epsilon;
 params.eta_sigma = eta_sigma;
@@ -95,11 +95,11 @@ params.numtx = length(Tlist);
 
 % filename to save
 if strcmp(params.txtype, 'rot'),
-    fname = sprintf('WB_wiwh_ws6_rot12_f4_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
+    fname = sprintf('sandstone_nowhinonor_limitpatch_ws6_f24_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.pbias, params.plambda);
 % trans and scale will be ignored here
 elseif strcmp(params.txtype, 'trans') || strcmp(params.txtype, 'scale'),
-    fname = sprintf('WB_wiwh_ws6_rot12_f4_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
+    fname = sprintf('sandstone_nowhinonor_ws6_f24_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.grid, params.pbias, params.plambda);
 end
 params.fname  = sprintf('%s/%s', params.savepath, fname);

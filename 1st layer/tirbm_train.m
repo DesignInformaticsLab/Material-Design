@@ -171,7 +171,9 @@ for t = 1:params.maxiter,
         % error and sparsity
         rec_err = sum((xb(:) - reconst(:)).^2)/(batchsize*params.rSize);
         sparsity = sum(sum(sum(hidprob(:, 1:numtx, :))))/(batchsize*numhid);
-        
+        if mod(t,1000)==0
+            wait=1
+        end
         % monitoring variables
         rec_err_epoch(i) = gather(rec_err);
         sparsity_epoch(i) = gather(sparsity);
@@ -255,7 +257,7 @@ for t = 1:params.maxiter,
 %     if params.epsilon <0.00005
 %        return 
 %     end    
-    if mod(t,500) == 0,
+    if mod(t,1000) == 0,
         % save trained weight
         weight = cpu2gpu_struct(weight);
         history = cpu2gpu_struct(history);
@@ -268,8 +270,8 @@ for t = 1:params.maxiter,
         end
     end
     
-    if mod(t,500) == 0
-       addpath('C:\doiUsers\Ruijin\materialCDBM\ruijin\CRBM\Honglak Lee\rbm_rotation\tirbm_material\results');
+    if mod(t,1000) == 0
+       addpath('C:\doiUsers\Ruijin\Research\materialCDBM\ruijin\CRBM\Honglak Lee\Summary\Material-Design\1st layer\results');
 %        show the image after every 10 iteration
        load(sprintf('%s_iter_%d.mat', params.fname,t))
        temp=gpu2cpu_struct(weight);
