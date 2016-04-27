@@ -10,7 +10,7 @@
 % - batch_list contains pixel indices from each channel and image
 
 % load data
-patch_size = 15;
+patch_size = 5;
 batch_size = 100;
 file = ['./training_data/channel_conditional_patch',num2str(patch_size),...
     '_batch',num2str(batch_size),'_0426.mat'];
