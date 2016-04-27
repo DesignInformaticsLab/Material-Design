@@ -1,4 +1,4 @@
-%%%% generate new 2nd layer hidden states
+addpath('../../../Code/Tools/libsvm/matlab');
 
 %% use gibbs sampling based on the conditional probabilities
 nchannel = 1; % 2nd layer filter size
