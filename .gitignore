@@ -6,4 +6,4 @@
 *.tar
 *.gz
 
-!/weichen_method/material1alloy
+!/weichen_method/material1alloy/training_data/*.mat
