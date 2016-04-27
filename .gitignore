@@ -5,3 +5,5 @@
 *.vtk
 *.tar
 *.gz
+
+!/weichen_method/material1alloy

@@ -10,7 +10,7 @@
 % - batch_list contains pixel indices from each channel and image
 
 % load data
-patch_size = 5;
+patch_size = 15;
 batch_size = 100;
 file = ['./training_data/channel_conditional_patch',num2str(patch_size),...
     '_batch',num2str(batch_size),'_0426.mat'];
@@ -19,7 +19,7 @@ load(file);
 % try logistic regression
 
 % add liblinear
-addpath('../../../../Code/Tools/liblinear/matlab');
+addpath('../../../../Code/Tools/libsvm/matlab');
 
 nchannel = 1; % 2nd layer filter size
 nimage = 60; %100 images
@@ -35,9 +35,9 @@ for i = 1:nchannel
     yy = y((i-1)*(nimage*batch_size)+(1:batch_size*nimage),:);
     XX = X((i-1)*(nimage*batch_size)+(1:batch_size*nimage),:);
     for cid = 1:length(cset)
-        cverror(cid) = svmtrain(sparse(yy), sparse(XX), sprintf(['-v 3 -s 0 -e 1e-3 -b 1 -q -c ', num2str(cset(cid))]));
+        cverror(cid) = svmtrain(sparse(yy), sparse(XX), sprintf(['-v 3 -s 0 -e 1e-6 -b 1 -q -c ', num2str(cset(cid))]));
     end
-    models{i,1} = svmtrain(sparse(yy), sparse(XX), sprintf(['-s 0 -e 1e-3 -b 1 -q -c ',num2str(cset(find(cverror==max(cverror),1)))]));
+    models{i,1} = svmtrain(sparse(yy), sparse(XX), sprintf(['-s 0 -e 1e-6 -b 1 -q -c ',num2str(cset(find(cverror==max(cverror),1)))]));
 end
 
 
