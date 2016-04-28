@@ -1,5 +1,5 @@
 CIFAR_DIR = 'alloy_mat_rbm_layer';
-CIFAR_DIM = [36 36 288];
+CIFAR_DIM = [36 36 144];
 
 % if ~exist(CIFAR_DIR, 'dir'),
 %     system('wget http://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz');

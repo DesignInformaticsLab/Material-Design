@@ -64,14 +64,14 @@ params.eta_sigma = eta_sigma;
 params.l2reg = 1e-4;
 params.epsdecay = 0.01;
 params.kcd = 1;
-params.numch = 300;
+params.numch = 2;
 
 
 % -----------------------------------------------------------------------
 %                                   load training and testing images
 % -----------------------------------------------------------------------
 
-npatch = 600; %%% test,original 12000
+npatch = 1000; %%% test,original 12000
 [xtrain, patches] = load_patches_3rd_layer(npatch, params.rs);
 % [patches]=noload_patches(params.rs);
 
@@ -95,11 +95,11 @@ params.numvis = params.ws^2*params.numch;
 
 % filename to save
 if strcmp(params.txtype, 'rot'),
-    fname = sprintf('rbm_1to20_4thlayer_(2f40f144f300f100f6ws9ws9ws36ws1ws12rP20P10P10P10P0Pb01)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
+    fname = sprintf('rbm_2ndlayer_circlecut_(2f1000f12ws189wsPb00)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.pbias, params.plambda);
 % trans and scale will be ignored here
 elseif strcmp(params.txtype, 'trans') || strcmp(params.txtype, 'scale'),
-    fname = sprintf('rbm_1to20_4thlayer_(2f40f144f300f100f6ws9ws9ws36ws1ws12rP20P10P10P10P0Pb01)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
+    fname = sprintf('rbm_2ndlayer_circlecut_(2f1000f12ws189wsPb00)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.grid, params.pbias, params.plambda);
 end
 params.fname  = sprintf('%s/%s', params.savepath, fname);

@@ -13,7 +13,7 @@ end
 % rotation
 % acc{end+1} = demo_cifar10_2nd_layer(optgpu, 24, 8, 'rot', 1, 5, 1, 0.5, 0.1, 0.01);
 % fname{end+1} = 'rotation';
-acc{end+1} = demo_cifar10_3rd_layer(optgpu, 9, 72, 0.1, 20, 0.01);
+acc{end+1} = demo_cifar10_3rd_layer(optgpu, 18, 72, 0.1, 10, 0.01);
 
 
 % % scale

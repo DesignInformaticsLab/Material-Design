@@ -5,3 +5,4 @@
 *.vtk
 *.tar
 *.gz
+!/different typs of material

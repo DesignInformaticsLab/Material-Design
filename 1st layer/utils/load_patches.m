@@ -9,11 +9,11 @@ prepare_cifar10;
 
 % Load CIFAR training data
 fprintf('Loading training data...\n');
-f1=load([CIFAR_DIR '/sandstone.mat']);
+f1=load([CIFAR_DIR '/circle_cut.mat']);
 
 xtr = double([f1.xtr;]);
 clear f1;
-fname = sprintf('sandstone_f24_test_ws%d',ws);
+fname = sprintf('circle_f2_nor_ws%d',ws);
 
 if ~exist('patch','dir'),
     mkdir('patch');
@@ -39,17 +39,17 @@ catch
 %             patch(i,:) = cpatch(:)';
             k=1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            while sum(sum(cpatch))>numel(cpatch)*0.8 % less than 1%               
-                r = random('unid', CIFAR_DIM(1) - ws + 1);
-                c = random('unid', CIFAR_DIM(2) - ws + 1);
-                cpatch = reshape(xtr(mod(i-1,size(xtr,1))+1, :), CIFAR_DIM);
-                cpatch = cpatch(r:r+ws-1,c:c+ws-1);
-                k=k+1;
-                if k > 50
-                    break
-                end
-
-            end
+%             while sum(sum(cpatch))>numel(cpatch)*0.9 % less than 1%               
+%                 r = random('unid', CIFAR_DIM(1) - ws + 1);
+%                 c = random('unid', CIFAR_DIM(2) - ws + 1);
+%                 cpatch = reshape(xtr(mod(i-1,size(xtr,1))+1, :), CIFAR_DIM);
+%                 cpatch = cpatch(r:r+ws-1,c:c+ws-1);
+%                 k=k+1;
+%                 if k > 50
+%                     break
+%                 end
+% 
+%             end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
             patch(i,:) = cpatch(:)';
         end

@@ -122,7 +122,9 @@ for t = 1:params.maxiter,
 %         if params.optgpu,
 %             xb = gpuArray(xb);
 %         end
-        
+        if mod(t,1000)==0
+            wait=1;
+        end
         % update trbm
         teptot = 0;
         tsp = tic;

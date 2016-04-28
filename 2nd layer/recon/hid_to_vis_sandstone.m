@@ -1,17 +1,18 @@
 clear;
-addpath('utils','function_code','hdstate_2ndlayer(1stpool2)_sandstone_(2f40f6ws9ws)')
-One=load('sandstone_nowhinonor_limitpatch_ws6_f24_alloy_w6_b24_rot_nrot1_pb0.1_pl10_iter_2000.mat');
+% addpath('utils','function_code','hdstate_2ndlayer(1stpool2)_sandstone_(2f40f6ws9ws)')
+addpath('utils','function_code')
+One=load('sandstone_nonor_ws6_f24_alloy_w6_b24_rot_nrot1_pb0.1_pl10_iter_2000.mat');
 
-fname=sprintf('sandstone_2nd_imresize2_hidstate_(2f40f6ws18ws)_alloy_w18_b40_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
+fname=sprintf('sandstone_2nd_imresize2_hidstate_(2f40f6ws9ws)_alloy_w9_b40_trans_ntx1_gr1_pb0_pl0_iter_1000');
 Two=load(sprintf('%s.mat',fname));
 %% filter pooling back
 W=gather(Two.weight);
 W=gather(W.vishid);
 for i = 1:size(W,2)
-    W_temp=reshape(W(:,i),[18*18 24]);
+    W_temp=reshape(W(:,i),[1944/24 24]);
     for j = 1:24
-        W_temp2=reshape(W_temp(:,j),[18 18]);
-        W_temp2=imresize(W_temp2,[18*2 18*2]);
+        W_temp2=reshape(W_temp(:,j),[9 9]);
+        W_temp2=imresize(W_temp2,[9*2 9*2]);
         W_temp3(:,j)=W_temp2(:);
     end
     W_two(:,i)=W_temp3(:);
@@ -28,7 +29,7 @@ clear temp;
 
 vishid_down=W_two;
 
-L2=195;H2=195;L1=160;H1=160;
+L2=195;H2=195;L1=178;H1=178;
 
 params_One=One.params;
 params_Two=Two.params;
@@ -38,12 +39,12 @@ Tlist = get_txmat(params_One.txtype, params_One.rs, params_One.ws, params_One.gr
 negdata_2nd=zeros(100,L1*L1);
 for ii = 1:60
         
-    fname=sprintf('hidstate_2ndlayer(1stp2)_sandstone_(2f40f6ws18ws)_%d',ii); %WB
+    fname=sprintf('hidstate_2ndlayer(1stp2)_sandstone_(2f40f6ws9wsP0)_%d',ii); %WB
     load([fname '.mat'],'hidstate');
     
     %% pool back hidstate
     for pp=1:size(hidstate,1)
-        hidstate=reshape(hidstate,[40 80^2]);
+        hidstate=reshape(hidstate,[40 89^2]);
         hidstate_temp=reshape(hidstate(pp,:),[sqrt(size(hidstate,2)),sqrt(size(hidstate,2))]);
        for m = 1:sqrt(size(hidstate,2))
             for n = 1:sqrt(size(hidstate,2))
@@ -98,10 +99,10 @@ negdata = zeros(L1, H1, numchannels);
             filter_t = reshape(filter_t,[ws_One,ws_One,numchannels]);
             S = reshape(hidstate(nt,nf,:),L1,H1);
             S1 = S;
-            S1=im2bw(S1);
+            S1=im2bw(S1,0.4);
             S1=double(S1);
             filter_x = ones(2,2);
-            for i = 1:4
+            for i = 1:2
                 S1=conv2(S1,filter_x,'same');
                 S1=floor(S1/4);
             end

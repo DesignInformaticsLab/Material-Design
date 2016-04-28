@@ -1,18 +1,18 @@
 clear;
 addpath('function_code','utils');
 
-load('filter_2nd_layer.mat');
-load('3rd_POOL2(imresize)_(real_bibi)_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_alloy_w9_b144_trans_ntx1_gr1_pb0.1_pl10_iter_1000.mat')
-numch = 40;
+load('filter_2nd_layer_circle.mat');
+load('3rd_POOL2(circle)_(96f96f144f12ws18ws18ws1rP10Pb01)_alloy_w18_b144_trans_ntx1_gr1_pb0.1_pl10_iter_2000.mat')
+numch = 96;
 
 %define 3rd layer filter
 W_Three=gather(weight.vishid);
 %pool back 3rd layer filter
 for i = 1:size(W_Three,2)
-    W_temp=reshape(W_Three(:,i),[9*9 40]);
-    for j = 1:40
-        W_temp2=reshape(W_temp(:,j),[9 9]);
-        W_temp2=imresize(W_temp2,[9*4 9*4]);
+    W_temp=reshape(W_Three(:,i),[18*18 96]);
+    for j = 1:numch
+        W_temp2=reshape(W_temp(:,j),[18 18]);
+        W_temp2=imresize(W_temp2,[18*4 18*4]);
         W_temp3(:,j)=W_temp2(:);
     end
     W_Three_Pool(:,i)=W_temp3(:);
@@ -28,7 +28,7 @@ filter_t_corr=reshape(filter_t_corr,[numel(filter_t_corr)/numch,numch]);
 for j = 1:size(W_Three,2)
     filter_3rd_temp=W_Three(:,j);
 
-negdata = zeros(36, 36);
+negdata = zeros(18*4, 18*4);
 for i=1:numch
 %     for ii =1:size(filter_t,2)
         filter_t_temp=filter_t_corr(:,i);
