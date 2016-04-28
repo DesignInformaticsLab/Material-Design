@@ -5,4 +5,9 @@
 *.vtk
 *.tar
 *.gz
-!/different typs of material
+<<<<<<< HEAD
+!/different typs of material/*.mat
+=======
+
+!/weichen_method/material1alloy/training_data/*.mat
+>>>>>>> origin/master
