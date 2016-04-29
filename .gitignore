@@ -7,3 +7,4 @@
 *.gz
 
 !/weichen_method/material1alloy/training_data/*.mat
+!/weichen_method/WB.mat
