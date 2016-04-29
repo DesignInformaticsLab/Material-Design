@@ -1,5 +1,5 @@
 for ii = 1:60
-fname = sprintf('hidstates1th_nonormnowhite_sandstone_(24f6ws1r)_%d',ii);
+fname = sprintf('hidstates1th_nonorm_sandstone_(24f6wsP10Pb01)_%d',ii);
 f1=load(sprintf('%s.mat', fname));   
 temp = double([f1.hidstate;]);
 temp = permute(temp,[3,2,1]);
@@ -8,7 +8,7 @@ for i = 1:24
     temp2=im2bw(imresize(temp2,[97 97]));
     temp3(:,i)=double(temp2(:));
 end
- fname2 = sprintf('hidstates1th_sandstone_imresize2_(24f6ws1r)_%d',ii);
+ fname2 = sprintf('hidstates1th_sandstone_imresize2_(24f6ws)_%d',ii);
  save(sprintf('%s.mat',fname2),'temp3', '-v7.3');
 
 xtr(ii,:) = temp3(:)';

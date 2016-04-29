@@ -1,6 +1,6 @@
-addpath('function_code','utils','hidstate_2ndlyaer(1stlayerpool2)_hardsphere_(2f40f6ws9ws)')
+addpath('function_code','utils','hidstate_2ndlayer_circle_(96f96f12ws18ws)')
 
-fname=sprintf('3rd_POOL2(hardsphere)_(24f40f72f6ws9ws9ws1rP10Pb01)_alloy_w9_b72_trans_ntx1_gr1_pb0.1_pl20_iter_1000');
+fname=sprintf('3rd_POOL2(circle)_(96f96f144f12ws18ws18ws1rP10Pb01)_alloy_w18_b144_trans_ntx1_gr1_pb0.1_pl10_iter_2000');
 load(sprintf('%s.mat',fname));
 
 
@@ -28,7 +28,7 @@ Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numro
 params.numtx = length(Tlist);
 
 for ii = 1:60
-fname=sprintf('hidstate_2ndlayer(1stp2)_POOL2(hardsphere)_(2f40f6ws9ws12rP20P10Pb01)_%d',ii);
+fname=sprintf('hidstate_2ndlayer(1stp2)_POOL2(circle)_(96f96f12ws18wsP10Pb01)_%d',ii);
 load([fname '.mat'],'hidstate')
 
 image2=hidstate;

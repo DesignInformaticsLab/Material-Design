@@ -1,6 +1,6 @@
-addpath('function_code','utils','3rd layer hidstate')
+addpath('function_code','utils','circle_cut_hidstate_1layer','results')
 
-fname=sprintf('rbm_1to20_3rdlayer_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_alloy_w36_b300_trans_ntx1_gr1_pb0.1_pl10_iter_300');
+fname=sprintf('rbm_2ndlayer_circlecut_(2f1000f12ws94wsP10Pb01)_alloy_w94_b1000_trans_ntx1_gr1_pb0.1_pl10_iter_200');
 load(sprintf('%s.mat',fname));
 
 
@@ -27,14 +27,16 @@ dataname='alloy_scale';
 % Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numrot, params.numch);
 params.numtx = 1;
 
-for ii = 1:100
-fname=sprintf('hidstates3nd_WB_nowh(p2p2)_imresize_(2f40f144f6ws9ws9ws12rP20P10P10Pb01)_%d',ii);
-load([fname '.mat'],'hidstate')
+for ii = 1:80
+fname=sprintf('hidstates1th_circlecut_imresize2_(2f12ws)_%d',ii);
+load([fname '.mat'],'temp3')
 
-image2=hidstate;
+image2=temp3;
 image2=permute(image2,[3 1 2]);
-image2=reshape(image2,[sqrt(size(image2,1)) sqrt(size(image2,1)) size(image2,2)]);
+image2=reshape(image2,[sqrt(size(image2,2)) sqrt(size(image2,2)) size(image2,3)]);
+
 
 image_reconstruct = crbm_4thlayer(image2, patch, W,weight,  params,ii); % remove rbm1.pars and set the value0.2 inside the function 10/15/2015
+% store_rbm(:,ii)=image_reconstruct(:);
 end
 

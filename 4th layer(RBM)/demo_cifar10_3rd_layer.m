@@ -64,7 +64,7 @@ params.eta_sigma = eta_sigma;
 params.l2reg = 1e-4;
 params.epsdecay = 0.01;
 params.kcd = 1;
-params.numch = 288;
+params.numch = 144;
 
 
 % -----------------------------------------------------------------------
@@ -95,11 +95,11 @@ params.numvis = params.ws^2*params.numch;
 
 % filename to save
 if strcmp(params.txtype, 'rot'),
-    fname = sprintf('rbm_hardsphere_4thlayer_(24f40f288f1000f6ws9ws9ws36wsP05Pb10)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
+    fname = sprintf('rbm_sandstone_4thlayer_(24f40f144f1000f6ws9ws9ws36ws)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.pbias, params.plambda);
 % trans and scale will be ignored here
 elseif strcmp(params.txtype, 'trans') || strcmp(params.txtype, 'scale'),
-    fname = sprintf('rbm_hardsphere_4thlayer_(24f40f288f1000f6ws9ws9ws36wsP05Pb10)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
+    fname = sprintf('rbm_sandstone_4thlayer_(24f40f144f1000f6ws9ws9ws36ws)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.grid, params.pbias, params.plambda);
 end
 params.fname  = sprintf('%s/%s', params.savepath, fname);

@@ -15,22 +15,11 @@ fprintf('Loading training data...\n');
 % xtr(ii,:) = temp(:)';
 % % f1=load([CIFAR_DIR '/filter8_ws12.mat']);
 % end
-f1=load([CIFAR_DIR '/hidstates4th_WB_nowh(p2p2)_imresize_(2f40f144f300f6ws9ws9ws36ws12rP20P10P10Pb01)_1to20.mat']);
+f1=load([CIFAR_DIR '/hidstates1th_nonorm_circle_cut_(2f12wsP30Pb005).mat']);
 xtr = double([f1.xtr;]);
-% xtr = gpuArray(xtr);
-
-% xtr = double([f1.poshidstates;]);
-% xtr = double([f1.hidstate;]);
-% ytr = double([f1.labels;]) + 1; % add 1 to labels!
-% xtr = permute(xtr,[1,2,3]);
-% with rotation (data get from max's method)
-% xtr = reshape(xtr,[size(xtr,1),size(xtr,2)*size(xtr,3)]);
-% no rotation (data get from ruijin's method)
-% xtr = reshape(xtr,[size(xtr,1),size(xtr,2)*size(xtr,3)]);
-
 
 clear f1;
-fname = sprintf('hidstates4th_WB_nowh(p2p2)_imresize_(2f40f144f300f50f12rP20P10P10Pb01)_6ws9ws9ws36ws%dws',ws);
+fname = sprintf('hidstates1th_nonorm_circlecut_(2fP005)_12ws%dws',ws);
 
 if ~exist('patch','dir'),
     mkdir('patch');
@@ -43,7 +32,7 @@ catch
         % extract random patch
         patch = zeros(npatch, ws*ws*CIFAR_DIM(3)); 
         for i=1:npatch
-            if (mod(i,600) == 0),
+            if (mod(i,1000) == 0),
                 fprintf('Extracting patch: %d / %d\n', i, npatch);
             end
             r = random('unid', CIFAR_DIM(1) - ws + 1);

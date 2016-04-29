@@ -3,12 +3,12 @@
 %% reconstruction process from 3rd layer
 addpath('utils','function_code','hidstate_hardsphere_3rdlayer_p2p2_(24f40f288f6ws9ws9wsP10Pb01)')
 % One=load('WB_real_alloy_w24_b02_rot_nrot24_pb0.1_pl0.1_iter_500.mat');
-One=load('hardsphere_withnornowhit_rand_ws6_f24_alloy_w6_b24_rot_nrot1_pb0_pl0_iter_1000.mat');
+One=load('sandstone_nonor_ws6_f24_alloy_w6_b24_rot_nrot1_pb0.1_pl10_iter_2000.mat');
 
-fname=sprintf('hardshpere_2nd_imresize2_hidstate_(2f40f6ws9ws12r)_alloy_w9_b40_trans_ntx1_gr1_pb0_pl0_iter_2000');
+fname=sprintf('sandstone_2nd_imresize2_hidstate_(2f40f6ws9ws)_alloy_w9_b40_trans_ntx1_gr1_pb0_pl0_iter_1000');
 Two=load(sprintf('%s.mat',fname));
 
-fname=sprintf('3rd_POOL2(hidsphere)_(24f40f288f6ws9ws9ws1rP10Pb01)_alloy_w9_b288_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
+fname=sprintf('3rd_POOL2(sandstone)_(24f40f144f6ws9ws9ws1rP10Pb01)_alloy_w9_b144_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
 Three=load(sprintf('%s.mat',fname));
 
 %% 3rd layer filter pooling back
@@ -62,7 +62,7 @@ ws_Two=params_Two.ws;
 Tlist = get_txmat(params_One.txtype, params_One.rs, params_One.ws, params_One.grid, params_One.numrot, params_One.numch);
 
 %% reconstruction process
-for ii = 1:120
+for ii = 1:60
 
 %%%%%%initialize store size(could be erased)%%%
     hidstate_2nd_layer=zeros(24,20736);
@@ -77,11 +77,11 @@ for ii = 1:120
 %     hidstate=reshape(im2bw(hidstate_sim_f(:,ii)),[288 373248/288]);
 %     hidstate=double(reshape(hidstate,[288 1 1296]));
 
-    hidstate=reshape(im2bw(reconst_4to3(:,ii),0.1),[1296 288])';
-    hidstate=reshape(double(hidstate),[288 1 1296]);
+%     hidstate=reshape(im2bw(reconst_4to3(:,ii),0.1),[1296 288])';
+%     hidstate=reshape(double(hidstate),[288 1 1296]);
     
-%     fname=sprintf('hidstates3nd_hardsphere_(p2p2)_(24f40f288f6ws9ws9wsP10Pb01)_%d',ii); %WB
-%     load([fname '.mat'],'hidstate');
+    fname=sprintf('hidstates3rd_sandstone_(p2p2)_(24f40f144f6ws9ws9wsPb030001)_%d',ii); %WB
+    load([fname '.mat'],'hidstate');
     
 %     hidstate=reshape(hardshpere_rand_4to3(:,ii),[373248/288 288])';
 %     hidstate=reshape(hidstate,[288 1 1296]);
@@ -159,7 +159,7 @@ negdata = zeros(L3*2, H3*2, numchannels);
             filter_t = reshape(filter_t,[ws_Two,ws_Two,numchannels]);
             S = reshape(hidstate(nt,nf,:),L3*2,H3*2);
             S1 = S;
-            S1=im2bw(S1);
+            S1=im2bw(S1,0.1);
             S1=double(S1);
             filter_x = ones(2,2);
             for i = 1:1
@@ -244,7 +244,7 @@ negdata = zeros(L3*4, H3*4, numchannels);
             filter_t = reshape(filter_t,[ws_One,ws_One,numchannels]);
             S = reshape(hidstate(nt,nf,:),L3*4,H3*4);
             S1 = S;
-            S1=im2bw(S1);
+            S1=im2bw(S1,0.1);
             S1=double(S1);
             filter_x = ones(2,2);
             for i = 1:1

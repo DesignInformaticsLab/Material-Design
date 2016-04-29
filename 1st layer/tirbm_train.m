@@ -109,7 +109,7 @@ for t = 1:params.maxiter,
     tetot = zeros(nbatch, 1);
     
     imidx_batch = randperm(size(xtr, 2));
-    if mod(t,200)==0
+    if mod(t,400)==0
         a=1;
     end
     for i = 1:nbatch,
@@ -171,7 +171,7 @@ for t = 1:params.maxiter,
         % error and sparsity
         rec_err = sum((xb(:) - reconst(:)).^2)/(batchsize*params.rSize);
         sparsity = sum(sum(sum(hidprob(:, 1:numtx, :))))/(batchsize*numhid);
-        if mod(t,1000)==0
+        if mod(t,500)==0
             wait=1
         end
         % monitoring variables

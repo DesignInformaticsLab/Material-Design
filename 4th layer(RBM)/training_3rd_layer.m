@@ -28,9 +28,9 @@ if strcmp(params.intype, 'real'),
     clear center label;
 end
 
-if params.optgpu,
-    cpu2gpu_struct(weight);
-end
+% if params.optgpu,
+%     cpu2gpu_struct(weight);
+% end
 
 % filename to save
 if ~isfield(params, 'fname'),
@@ -173,7 +173,7 @@ for t = 1:params.maxiter,
         end
         
         % error and sparsity
-%         xb=gather(xb);reconst=gather(reconst); %out of gpu memory
+        xb=gather(xb);reconst=gather(reconst); %out of gpu memory
         rec_err = sum((xb(:) - reconst(:)).^2)/(batchsize*params.rSize);
         sparsity = sum(sum(sum(hidprob(:, 1:numtx, :))))/(batchsize*numhid);
         

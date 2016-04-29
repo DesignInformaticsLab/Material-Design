@@ -57,14 +57,14 @@ params.sptype = sptype;
 params.savepath = savedir;
 
 % other hyper parameters
-params.maxiter = 1000;
+params.maxiter = 2000;
 params.batchsize = batchSize;
 params.epsilon = epsilon;
 params.eta_sigma = eta_sigma;
 params.l2reg = 1e-4;
 params.epsdecay = 0.01;
 params.kcd = 1;
-params.numch = 40;
+params.numch = 96;
 
 
 % -----------------------------------------------------------------------
@@ -95,11 +95,11 @@ params.numvis = params.ws^2*params.numch;
 
 % filename to save
 if strcmp(params.txtype, 'rot'),
-    fname = sprintf('3rd_POOL2(hidsphere)_(24f40f144f6ws9ws9ws1rP10Pb01)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
+    fname = sprintf('3rd_POOL2(circle)_(96f96f72f12ws18ws18ws1rP10Pb01)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.pbias, params.plambda);
 % trans and scale will be ignored here
 elseif strcmp(params.txtype, 'trans') || strcmp(params.txtype, 'scale'),
-    fname = sprintf('3rd_POOL2(hidsphere)_(24f40f144f6ws9ws9ws1rP10Pb01)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
+    fname = sprintf('3rd_POOL2(circle)_(96f96f72f12ws18ws18ws1rP10Pb01)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.grid, params.pbias, params.plambda);
 end
 params.fname  = sprintf('%s/%s', params.savepath, fname);

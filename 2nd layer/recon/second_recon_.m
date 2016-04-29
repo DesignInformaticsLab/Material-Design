@@ -1,6 +1,6 @@
-fname=sprintf('sandstone_2nd_imresize2_hidstate_(2f40f6ws18ws)_alloy_w18_b40_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
+fname=sprintf('circle_2nd_imresize2_hidstate_(96f96f6ws9wsPb03)_alloy_w18_b96_trans_ntx1_gr1_pb0.1_pl10_iter_2000');
 load(sprintf('%s.mat',fname));
-addpath('utils','function_code','sandstone_hidstate_1layer_limitpatch2');
+addpath('utils','function_code','circle_hidstate_1layer(96f12ws)');
 params.optgpu = 0;
 spacing = 1;
 ws=params.ws;
@@ -74,8 +74,8 @@ params.numtx = length(Tlist);
 
 % load('recon_from2to1');
 % image2=negdata;
-for ii = 1:60
-fname=sprintf('hidstates1th_sandstone_limitpatch_imresize2_(24f6wsP10Pb01)_%d',ii);
+for ii = 1:20
+fname=sprintf('hidstates1th_nonor_circle_imresize2_(96f12ws)_%d',ii);
 load([fname '.mat'],'temp3');
 hidstate=temp3;
 

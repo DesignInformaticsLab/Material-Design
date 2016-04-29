@@ -68,8 +68,15 @@ function [poshidexp2] = crbm_inference(image, patch, weight, Tlist, params,ii)
     [hidstate, ~] = sample_multinomial(hidprob, params.optgpu);
     hidstate = reshape(hidstate(1:numtx, :), numtx, numhid, batchsize);
     
-    fname = sprintf('hidstates1th_nonormnowhite_limitpatch_sandstone_(24f6wsP10Pb01)_%d',ii);
-    save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
+%     fname = sprintf('hidstates1th_nonorm_circle_cut_(2f12wsP30Pb005)_%d',ii);
+%     save(sprintf('%s.mat',fname),'hidstate', '-v7.3');
+    
+%     addpath('circle reconstruction');
+%     fname=sprintf('sandstone_sm_recon_test');
+%     load(sprintf('%s.mat',fname));
+%     hidstate=reshape(double((rbm_recon_sandstone(:,ii))),[73008/48 48])';
+%     hidstate=reshape(hidstate,[1 48 73008/48]);
+    
  
     negdata = zeros(L, H, numchannels);
     for nf = 1:numhid
