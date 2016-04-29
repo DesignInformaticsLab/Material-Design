@@ -7,7 +7,7 @@ nchannel = 1; % 2nd layer filter size
 nimage = 60; %100 images
 H = 200; % image height
 W = 200; % image width
-patch_size = 15;
+patch_size = 5;
 margin_size = (patch_size-1)/2;
 batch_size = 100; % from each channel of each image, sample $batch_size$ patches
 

@@ -20,7 +20,7 @@ if opt_graycolor, colormap(gray); end
 % compute rows, cols
 [L M]=size(A);
 sz=sqrt(L);
-buf=10;
+buf=1;
 if ~exist('cols', 'var')
     if floor(sqrt(M))^2 ~= M
         n=ceil(sqrt(M));
@@ -51,9 +51,11 @@ if ~opt_colmajor
             end
             clim=max(abs(A(:,k)));
             if opt_normalize
-                array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/clim;
+%                 array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/clim;
+                array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/1;
             else
-                array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/max(abs(A(:)));
+%                 array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/max(abs(A(:)));
+                array(buf+(i-1)*(sz+buf)+(1:sz),buf+(j-1)*(sz+buf)+(1:sz))=reshape(A(:,k),sz,sz)/1;
             end
             k=k+1;
         end

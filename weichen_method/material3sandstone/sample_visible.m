@@ -3,30 +3,26 @@ clear;
 
 %% load raw data
 nchannel = 1; % 2nd layer filter size
-nimage = 100; %100 images
+nimage = 60; %100 images
 H = 200; % image height
 W = 200; % image width
 
-% test images
-% a = imread('sample3.png');
-% allhistate = reshape(a(:,:,1),1,1,H*W)>200;
-
-load WB.mat;
-allhistate = reshape(WB,[100,1,40000]);
-
-if (~exist('allhistate','var'))
-    allhistate = zeros(nimage, nchannel, H*W);
-    for i = 1:nimage 
-        cstr = [str,num2str(i),'.mat'];
-        temp = load(cstr);
-        temp = temp.hidstate;
-        allhistate(i,:,:) = reshape(temp(:,1,:),nchannel,H*W);
-    end
+addpath('./XY_plane');
+addpath('./XZ_plane');
+addpath('./YZ_plane');
+addpath('../');
+xtr=zeros(H*W,nimage);
+for i = 1:nimage    
+    fname = sprintf('sandstone_%d',i);
+    load(sprintf('%s.mat',fname));
+    I=double(im2bw(imresize(I,[H W])));
+    xtr(:,i)=I(:);
+%     save(sprintf('%s.mat', fname2), 'I', '-v7.3');
 end
+xtr = xtr';
+allhistate = reshape(xtr,[nimage,1,H*W]);
+
 display_network(reshape(allhistate(1,1,:),H*W,1));
-
-%% test the idea of CAR model
-
 
 %% get data for the supervised learning idea from Wei Chen's paper
 % Try the following first: Treat each image, each channel as the same
@@ -37,7 +33,7 @@ display_network(reshape(allhistate(1,1,:),H*W,1));
 % treat out-of-image pixels as 0, and all pixel values as -1 and 1
 % patch_size = floor((W-1)/2)*2+1;
 
-patch_size = 5;
+patch_size = 45;
 margin_size = (patch_size-1)/2;
 batch_size = 100; % from each channel of each image, sample $batch_size$ patches
 % for each channel, the total amount of samples is batch_size*nimage
@@ -95,6 +91,7 @@ for channel_id = 1:nchannel
             wait = 1;
         end
         
+        display_network(hpatch(1,:));
         hpatch(:,(patch_size^2+1)/2:end) = [];
         
 
@@ -109,5 +106,5 @@ for channel_id = 1:nchannel
 end
 
 save(['./training_data/channel_conditional_patch',num2str(patch_size),...
-    '_batch',num2str(batch_size),'_0310.mat'],...
+    '_batch',num2str(batch_size),'_0426.mat'],...
     'X','y','batch_list','-v7.3');
