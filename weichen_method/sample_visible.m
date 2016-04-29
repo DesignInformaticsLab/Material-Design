@@ -39,7 +39,7 @@ display_network(reshape(allhistate(1,1,:),H*W,1));
 
 patch_size = 5;
 margin_size = (patch_size-1)/2;
-batch_size = 1000; % from each channel of each image, sample $batch_size$ patches
+batch_size = 100; % from each channel of each image, sample $batch_size$ patches
 % for each channel, the total amount of samples is batch_size*nimage
 
 % input original image pixel id, output pixel id for the image with margins

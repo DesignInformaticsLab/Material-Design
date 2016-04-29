@@ -1,5 +1,5 @@
 %%%% generate new 2nd layer hidden states
-addpath('../../../../Code/Tools/libsvm/matlab');
+addpath('../libsvm/');
 
 %% use gibbs sampling based on the conditional probabilities
 num_randomimage = 60;
