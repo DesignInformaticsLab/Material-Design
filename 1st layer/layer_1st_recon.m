@@ -4,6 +4,7 @@ addpath('utils','function_code','results')
 fname=sprintf('WB_nowh_P20Pb01_rot12_2f_6ws_alloy_w6_b02_rot_nrot12_pb0.1_pl20_iter_4000');
 load(sprintf('%s.mat',fname));
 % load original image
+% test
 load('WB.mat')
 params.optgpu = 0;
 spacing = 1;
