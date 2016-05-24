@@ -1,5 +1,5 @@
-addpath('results','alloy_mat','function_code','utils')
-fname=sprintf('circle_cut_nonor_ws12_f2_alloy_w12_b02_rot_nrot1_pb0.01_pl30_iter_1000');
+addpath('results','alloy_mat','function_code','utils','circle reconstruction')
+fname=sprintf('WB_nowh_P20Pb01_rot12_2f_6ws_alloy_w6_b02_rot_nrot12_pb0.1_pl20_iter_4000');
 load(sprintf('%s.mat',fname));
 % addpath('../structure/');
 load('circle_cut.mat')
@@ -45,13 +45,13 @@ poolrat2f40_2ndlayer = zeros(40,89*89);
 %     H(H>1)=0;
 %     Vr = h2v( rbm, H );
     
-for ii = 1:80
+for ii = 1:100
 % images_all = sample_images_all(dataname);
 
-image = xtr(ii,:);
+image = xtr(1,:);
 image = reshape(image,[200,200]);
     
     [image_reconstruct]= crbm_inference(image, patch, weight, Tlist, params,ii); % remove rbm1.pars and set the value0.2 inside the function 10/15/2015
-    figure(7),display_network(reshape(image_reconstruct,size(image_reconstruct,1)*size(image_reconstruct,2),1));
-    store2(:,ii)=image_reconstruct(:);
+%     figure(7),display_network(reshape(image_reconstruct,size(image_reconstruct,1)*size(image_reconstruct,2),1));
+    store1(:,ii)=image_reconstruct(:);
 end

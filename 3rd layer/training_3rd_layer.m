@@ -110,7 +110,7 @@ for t = 1:params.maxiter,
     tetot = zeros(nbatch, 1);
     
     imidx_batch = randperm(size(xtr, 2));
-    if mod(t,200)==0
+    if mod(t,1000)==0
         aaa=1;
     end
     for i = 1:nbatch,

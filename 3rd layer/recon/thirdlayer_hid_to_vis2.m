@@ -3,12 +3,12 @@
 %% reconstruction process from 3rd layer
 addpath('utils','function_code','hidstate_hardsphere_3rdlayer_p2p2_(24f40f288f6ws9ws9wsP10Pb01)')
 % One=load('WB_real_alloy_w24_b02_rot_nrot24_pb0.1_pl0.1_iter_500.mat');
-One=load('sandstone_nonor_ws6_f24_alloy_w6_b24_rot_nrot1_pb0.1_pl10_iter_2000.mat');
+One=load('WB_nowh_P20Pb01_rot12_2f_6ws_alloy_w6_b02_rot_nrot12_pb0.1_pl20_iter_4000.mat');
 
-fname=sprintf('sandstone_2nd_imresize2_hidstate_(2f40f6ws9ws)_alloy_w9_b40_trans_ntx1_gr1_pb0_pl0_iter_1000');
+fname=sprintf('WB_2nd_pool2_hidstate_(2f40f6ws9ws12rP20P20Pb01)_alloy_w9_b40_trans_ntx1_gr1_pb0.1_pl20_iter_2000');
 Two=load(sprintf('%s.mat',fname));
 
-fname=sprintf('3rd_POOL2(sandstone)_(24f40f144f6ws9ws9ws1rP10Pb01)_alloy_w9_b144_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
+fname=sprintf('3rd_POOL2(imresize)_(real_bibi)_(2f40f288f6ws9ws9ws12rP20P10P10Pb01)_alloy_w9_b288_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
 Three=load(sprintf('%s.mat',fname));
 
 %% 3rd layer filter pooling back
@@ -62,7 +62,7 @@ ws_Two=params_Two.ws;
 Tlist = get_txmat(params_One.txtype, params_One.rs, params_One.ws, params_One.grid, params_One.numrot, params_One.numch);
 
 %% reconstruction process
-for ii = 1:60
+for ii = 1:100
 
 %%%%%%initialize store size(could be erased)%%%
     hidstate_2nd_layer=zeros(24,20736);
@@ -77,11 +77,11 @@ for ii = 1:60
 %     hidstate=reshape(im2bw(hidstate_sim_f(:,ii)),[288 373248/288]);
 %     hidstate=double(reshape(hidstate,[288 1 1296]));
 
-%     hidstate=reshape(im2bw(reconst_4to3(:,ii),0.1),[1296 288])';
-%     hidstate=reshape(double(hidstate),[288 1 1296]);
+    hidstate=reshape(im2bw(reconst_rand_4to3(:,ii),0.6),[1296 288])';
+    hidstate=reshape(double(hidstate),[288 1 1296]);
     
-    fname=sprintf('hidstates3rd_sandstone_(p2p2)_(24f40f144f6ws9ws9wsPb030001)_%d',ii); %WB
-    load([fname '.mat'],'hidstate');
+%     fname=sprintf('hidstates3rd_sandstone_(p2p2)_(24f40f144f6ws9ws9wsPb030001)_%d',ii); %WB
+%     load([fname '.mat'],'hidstate');
     
 %     hidstate=reshape(hardshpere_rand_4to3(:,ii),[373248/288 288])';
 %     hidstate=reshape(hidstate,[288 1 1296]);
@@ -219,7 +219,7 @@ negdata = zeros(L3*2, H3*2, numchannels);
 
 
 hidstate=permute(hidstate,[3,1,2]);
-hidstate=reshape(hidstate,[1,24,(L3*4)^2]);    
+hidstate=reshape(hidstate,[12,2,(L3*4)^2]);    
 
 
 
@@ -268,7 +268,7 @@ negdata=gather(negdata);
     
 % figure(ii);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1),ii);
 % figure(112);subplot(10,10,ii),imshow(negdata);
-figure(163);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1));
-store_total4(:,ii)=negdata(:);
+figure(164);display_network(reshape(negdata(:,:,1),size(negdata,1)*size(negdata,2),1));
+store_total9(:,ii)=negdata(:);
 % 
 end

@@ -15,7 +15,7 @@ fprintf('Loading training data...\n');
 % xtr(ii,:) = temp(:)';
 % % f1=load([CIFAR_DIR '/filter8_ws12.mat']);
 % end
-f1=load([CIFAR_DIR '/hidstates1th_circlecut_imresize2_(2f12ws).mat']);
+f1=load([CIFAR_DIR '/hidstates1th_alloy2_imresize2_(24f6ws).mat']);
 xtr = double([f1.xtr;]);
 % xtr = gpuArray(xtr);
 
@@ -30,7 +30,7 @@ xtr = double([f1.xtr;]);
 
 
  clear f1;
-fname = sprintf('hidstate_circlecut_2nd_pool2_f2_ws%d',ws);
+fname = sprintf('hidstate_alloy2_pool2_2nd_f24f40_ws6ws%d',ws);
 
 if ~exist('patch','dir'),
     mkdir('patch');

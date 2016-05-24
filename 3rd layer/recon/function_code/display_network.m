@@ -20,7 +20,7 @@ if opt_graycolor, colormap(gray); end
 % compute rows, cols
 [L M]=size(A);
 sz=sqrt(L);
-buf=1;
+buf=10;
 if ~exist('cols', 'var')
     if floor(sqrt(M))^2 ~= M
         n=ceil(sqrt(M));
@@ -79,9 +79,9 @@ else
 end
 
 if opt_graycolor
-    h=imagesc(array,'EraseMode','none',[-1 1]);
+    h=imagesc(array,'EraseMode','none',[0 1]);
 else
-    h=imagesc(array,'EraseMode','none',[-1 1]);
+    h=imagesc(array,'EraseMode','none',[0 1]);
 end
 axis image off
 

@@ -93,6 +93,10 @@ if params.optgpu,
 end
 temp_sparsitycheck=0;
 for t = 1:params.maxiter,
+    
+    if mod(t,200)==0
+        wait=1;
+    end
 
     % momentum update
     if t < 100,
@@ -166,9 +170,7 @@ for t = 1:params.maxiter,
         if strcmp(params.intype, 'binary'),
             reconst = sigmoid(reconst);
         end
-        if mod(t,500)==0
-            wait=1
-        end
+        
         % error and sparsity
 %         xb=gather(xb);reconst=gather(reconst); %out of gpu memory
         rec_err = sum((xb(:) - reconst(:)).^2)/(batchsize*params.rSize);

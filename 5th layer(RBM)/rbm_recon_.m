@@ -1,6 +1,6 @@
-addpath('function_code','utils','results','4th layer sandstone hidstate 24f40f144f6ws9ws9ws36ws')
+addpath('function_code','utils','results','4th layer hidstate(288f)_2400iter')
 
-fname=sprintf('circle_nor_ws6_f24_alloy_w6_b24_rot_nrot1_pb0.1_pl3_iter_1000');
+fname=sprintf('rbm_5thlayer_(2f40f288f1000f30f6ws9ws9ws36ws1ws12rP20P10P10P10P0Pb01)_alloy_w1_b30_trans_ntx1_gr1_pb0.1_pl0_iter_40000');
 load(sprintf('%s.mat',fname));
 
 
@@ -27,8 +27,8 @@ dataname='alloy_scale';
 % Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numrot, params.numch);
 params.numtx = 1;
 
-for ii = 1:60
-fname=sprintf('hidstates4th_sandstone_(p2p2)_imresize_(24f40f144f1000f6ws9ws9ws36ws)_%d',ii);
+for ii = 1:100
+fname=sprintf('hidstates4th_WB_nowh(p2p2)_imresize_(2f40f288f1000f6ws9ws9ws36ws12rP20P10P10Pb01)_%d',ii);
 load([fname '.mat'],'hidstate')
 
 image2=hidstate;

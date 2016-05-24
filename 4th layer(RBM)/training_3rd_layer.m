@@ -111,7 +111,7 @@ for t = 1:params.maxiter,
     
 %     imidx_batch = randperm(size(xtr, 2));
     imidx_batch = 1:1000;
-    if mod(t,200)==0
+    if mod(t,400)==0
         aaa=1;
     end
     for i = 1:nbatch,

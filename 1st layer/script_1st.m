@@ -11,7 +11,7 @@ end
 % fname{end+1} = 'translation';
 
 % rotation
-acc{end+1} = demo_cifar10(optgpu, 6,24, 'rot', 1, 1, 1, 0.5, 30, 0.01);
+acc{end+1} = demo_cifar10(optgpu, 18,2, 'rot', 1, 12, 1, 0.1, 3, 0.01);
 fname{end+1} = 'rotation';
 
 % % scale

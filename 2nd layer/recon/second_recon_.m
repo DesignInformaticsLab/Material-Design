@@ -1,6 +1,6 @@
-fname=sprintf('circle_2nd_imresize2_hidstate_(96f96f6ws9wsPb03)_alloy_w18_b96_trans_ntx1_gr1_pb0.1_pl10_iter_2000');
+fname=sprintf('alloy2_2nd_hidstate_pool2_(24f40f6ws9ws)_alloy_w9_b40_trans_ntx1_gr1_pb0.3_pl10_iter_1000');
 load(sprintf('%s.mat',fname));
-addpath('utils','function_code','circle_hidstate_1layer(96f12ws)');
+addpath('utils','function_code','alloy2_hidstate_1layer(24f6ws)');
 params.optgpu = 0;
 spacing = 1;
 ws=params.ws;
@@ -74,9 +74,10 @@ params.numtx = length(Tlist);
 
 % load('recon_from2to1');
 % image2=negdata;
-for ii = 1:20
-fname=sprintf('hidstates1th_nonor_circle_imresize2_(96f12ws)_%d',ii);
+for ii = 1:80
+fname=sprintf('hidstates1th_alloy2_imresize2_(24f6ws)_%d',ii);
 load([fname '.mat'],'temp3');
+
 hidstate=temp3;
 
 image2=hidstate;

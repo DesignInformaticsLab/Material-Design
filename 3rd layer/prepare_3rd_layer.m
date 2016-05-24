@@ -1,5 +1,5 @@
 CIFAR_DIR = 'alloy_mat_3rd_layer';
-CIFAR_DIM = [89 89 96];
+CIFAR_DIM = [44 44 40];
 
 % if ~exist(CIFAR_DIR, 'dir'),
 %     system('wget http://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz');

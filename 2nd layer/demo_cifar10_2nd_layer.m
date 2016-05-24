@@ -64,7 +64,7 @@ params.eta_sigma = eta_sigma;
 params.l2reg = 1e-4;
 params.epsdecay = 0.01;
 params.kcd = 1;
-params.numch = 2;
+params.numch = 24;
 
 
 % -----------------------------------------------------------------------
@@ -95,11 +95,11 @@ params.numvis = params.ws^2*params.numch;
 
 % filename to save
 if strcmp(params.txtype, 'rot'),
-    fname = sprintf('circlecut_2nd_resize2_hidstate_(2f40f12ws12wsPb00500)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
+    fname = sprintf('alloy2_2nd_hidstate_pool2_(24f40f6ws9ws)_%s_w%d_b%02d_%s_nrot%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.pbias, params.plambda);
 % trans and scale will be ignored here
 elseif strcmp(params.txtype, 'trans') || strcmp(params.txtype, 'scale'),
-    fname = sprintf('circlecut_2nd_resize2_hidstate_(2f40f12ws12wsPb00500)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
+    fname = sprintf('alloy2_2nd_hidstate_pool2_(24f40f6ws9ws)_%s_w%d_b%02d_%s_ntx%d_gr%d_pb%g_pl%g', ...
         params.dataset, params.ws, params.numhid, params.txtype, params.numtx, params.grid, params.pbias, params.plambda);
 end
 params.fname  = sprintf('%s/%s', params.savepath, fname);

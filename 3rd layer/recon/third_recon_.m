@@ -1,6 +1,6 @@
-addpath('function_code','utils','hidstate_2ndlayer_circle_(96f96f12ws18ws)')
+addpath('function_code','utils','hidstate_2ndlayer_alloy2_(24f40f6ws9ws)')
 
-fname=sprintf('3rd_POOL2(circle)_(96f96f144f12ws18ws18ws1rP10Pb01)_alloy_w18_b144_trans_ntx1_gr1_pb0.1_pl10_iter_2000');
+fname=sprintf('3rd_(alloy2)_(24f40f144f6w9ws9ws)_alloy_w9_b144_trans_ntx1_gr1_pb0.1_pl10_iter_1000');
 load(sprintf('%s.mat',fname));
 
 
@@ -27,8 +27,8 @@ dataname='alloy_scale';
 Tlist = get_txmat(params.txtype, params.rs, params.ws, params.grid, params.numrot, params.numch);
 params.numtx = length(Tlist);
 
-for ii = 1:60
-fname=sprintf('hidstate_2ndlayer(1stp2)_POOL2(circle)_(96f96f12ws18wsP10Pb01)_%d',ii);
+for ii = 1:80
+fname=sprintf('hidstate_2ndlayer_(p2p2)_alloy2_(24f40f6ws9ws)_%d',ii);
 load([fname '.mat'],'hidstate')
 
 image2=hidstate;

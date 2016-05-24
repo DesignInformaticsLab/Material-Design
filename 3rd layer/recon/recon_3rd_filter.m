@@ -2,7 +2,7 @@ clear;
 addpath('function_code','utils');
 
 load('filter_2nd_layer_circle.mat');
-load('3rd_POOL2(circle)_(96f96f144f12ws18ws18ws1rP10Pb01)_alloy_w18_b144_trans_ntx1_gr1_pb0.1_pl10_iter_2000.mat')
+load('3rd_POOL2_(real_bibi)_(2f40f288f6ws9ws9ws12rP20P10P40Pb01)_alloy_w9_b288_trans_ntx1_gr1_pb0.1_pl10_iter_1000.mat')
 numch = 96;
 
 %define 3rd layer filter
